@@ -1,0 +1,283 @@
+
+
+
+Network Working Group                                      G. Montenegro
+Internet-Draft                                                 Microsoft
+Intended status: Informational                               S. Cespedes
+Expires: May 11, 2017                               Universidad de Chile
+                                                               S. Loreto
+                                                                Ericsson
+                                                              R. Simpson
+                                                        General Electric
+                                                        November 7, 2016
+
+
+        HTTP/2 Configuration Profile for the Internet of Things
+              draft-montenegro-httpbis-h2ot-profile-latest
+
+Abstract
+
+   This document define an HTTP/2 configuration profile for IoT.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on May 11, 2017.
+
+Copyright Notice
+
+   Copyright (c) 2016 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (http://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+
+
+
+
+Montenegro, et al.        Expires May 11, 2017                  [Page 1]
+
+
+Internet-Draft                H2oT Profile                 November 2016
+
+
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   2.  Configuration Profile of HTTP/2 for IoT . . . . . . . . . . .   2
+   3.  Negotiation of HTTP/2 for IoT . . . . . . . . . . . . . . . .   3
+   4.  Implementation Considerations . . . . . . . . . . . . . . . .   4
+   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   4
+   6.  Security Considerations . . . . . . . . . . . . . . . . . . .   4
+   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   4
+   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
+     8.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
+     8.2.  Informative References  . . . . . . . . . . . . . . . . .   5
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   5
+
+1.  Introduction
+
+   Unlike HTTP/1.X, HTTP/2 is suitable for many IoT applications.  Even
+   though IoT was not the primary scenario when HTTP/2 was designed, the
+   protocol is compact, configurable and flexible.  The use of header
+   compression as well as the binary encoding of the protocol reduces
+   the size of HTTP/2 flows as compared to HTTP/1.1.  HTTP/2's ability
+   to reuse connections for multiple streams reduces connection
+   establishment overhead, such as TCP connection establishment and TLS
+   session establishment.
+
+   This document discusses how to configure HTTP/2 so as to adapt it
+   better to IoT scenarios, including those in which the devices running
+   the protocol have constrained resources.
+
+2.  Configuration Profile of HTTP/2 for IoT
+
+   HTTP/2 has many negotiable settings that can improve its performance
+   for IoT applications by reducing bandwidth, codespace, and RAM
+   requirements.  Specifically, the following settings and values have
+   been found to be useful in IoT applications:
+
+   o  SETTINGS_HEADER_TABLE_SIZE: this setting allows hosts to limit the
+      size of the header compression table used for decoding, reducing
+      required RAM, but potentially increasing bandwidth requirements.
+      Initial value per HTTP/2 is 4096.  IoT scenarios might benefit
+      from changing this to a smaller value (e.g., 512), however, to
+      avoid increased bandwidth usage, IoT scenarios should judiciously
+      use HTTP headers and the dynamic header table [RFC7541].
+
+
+
+
+
+Montenegro, et al.        Expires May 11, 2017                  [Page 2]
+
+
+Internet-Draft                H2oT Profile                 November 2016
+
+
+   o  SETTINGS_ENABLE_PUSH: This setting allows clients to enable or
+      disable server push.  This functionality may not be required in
+      some IoT applications.  The initial value per HTTP/2 is 1.
+
+   o  SETTINGS_MAX_CONCURRENT_STREAMS: this setting allows a sender to
+      limit the number of simultaneous streams that a receiver can
+      create for a connection.  HTTP/2 recommends this value be no
+      smaller than 100.  IoT scenarios may wish to limit this to a much
+      smaller number, such as 2 or 3.
+
+   o  SETTINGS_INITIAL_WINDOW_SIZE: this setting allows hosts to limit
+      the flow control window, potentially reducing buffer requirements
+      at the expense of potentially underutilized bandwidth-delay
+      products.  Per HTTP/2 the initial value is 2^16-1 (65,535) octets.
+      IoT scenarios may wish to limit this to smaller values in
+      accordance with the node's constraints (e.g., a few kilo-octets).
+
+   o  SETTINGS_MAX_FRAME_SIZE: this setting allows hosts to specify the
+      largest frame size they are willing to receive.  Per HTTP/2 the
+      initial value is 2^14 (16,384) octets.  Somewhat
+      counterintuitively, IoT hosts may wish to leave this value large
+      and rely on flow control to avoid unnecessary framing overhead.
+
+   o  SETTINGS_MAX_HEADER_LIST_SIZE: this setting allows hosts to limit
+      the maximum size of the header list they are willing to receive.
+      Per HTTP/2 the initial value of this setting is unlimited.  IoT
+      scenarios may wish to limit this to smaller values in accordance
+      with the node's constraints (e.g., a few kilo-octets).
+
+3.  Negotiation of HTTP/2 for IoT
+
+   For Constrained and Internet scenarios, it is assumed that HTTP/2
+   runs over TLS.  Accordingly, the ALPN negotiation in section 3.3 of
+   [RFC7540] applies.  As seen above, an IoT scenario may wish to depart
+   from the default SETTINGS.  To do so, the usual SETTINGS negotiation
+   applies.  In this case, the initial SETTINGS negotiation setup is
+   based on the first message exchange initiated by the client.  This is
+   simpler than general HTTP/2 case: not having an in-the-clear Upgrade
+   path means the client is always in control of first HTTP/2 message,
+   including any SETTINGS changes it may wish.
+
+   Additionally, the use of "prior knowledge" per section 3.4 of
+   [RFC7540] is likely to also work particularly well in IoT scenarios
+   in which a client and its web service are likely to be closely
+   matched.  In such scenarios, prior knowledge may allow for SETTINGS
+   to be set in accordance with some shared state implied by the the
+   prior knowledge.  In such cases, SETTINGS negotiation may not be
+   necessary in order to depart from the defaults as defined by HTTP/2.
+
+
+
+Montenegro, et al.        Expires May 11, 2017                  [Page 3]
+
+
+Internet-Draft                H2oT Profile                 November 2016
+
+
+4.  Implementation Considerations
+
+   This section assumes HTTP/2 over TCP.
+
+   In addition to underlying stack considerations with respect to IPv4,
+   IPv6, TCP, and TLS, there are implementation considerations for
+   HTTP/2 for IoT.
+
+   A primary consideration is the number of allowed simultaneous HTTP/2
+   connections.  As each connection has associated overhead, as well as
+   overhead for each stream, constrained hosts may wish to limit their
+   number of simultaneous connections.  However, implementers should
+   consider that some popular browsers require more than one connection
+   to operate.
+
+   In addition to minimizing the number of simultaneous connections,
+   hosts should consider leaving connections open if there is a
+   possibility of further communication with the remote peer.  HTTP/2
+   contains mechanisms such as PING to periodically check idle
+   connections.  Leaving established connections open when there is a
+   possibility of future communication allows connection establishment
+   overhead (and potentially TLS session establishment overhead) to be
+   avoided.
+
+   Should TLS be used, implementers may wish to consider utilizing
+   hardware-based encryption to further reduce codespace and RAM
+   requirements.
+
+5.  IANA Considerations
+
+   This document has no considerations for IANA.
+
+6.  Security Considerations
+
+   This document seeks to improve security of the IoT by encouraging use
+   of mainstream protocols which are better understood and more
+   thoroughly debugged (both in their specifications as well as in their
+   implementations).
+
+7.  Acknowledgements
+
+   Thanks to the following individuals for helpful comments and
+   discussion: Brian Raymor, Dave Thaler, Ed Briggs.
+
+   This document was produced using the xml2rfc tool [RFC2629][RFC7749].
+
+
+
+
+
+
+Montenegro, et al.        Expires May 11, 2017                  [Page 4]
+
+
+Internet-Draft                H2oT Profile                 November 2016
+
+
+8.  References
+
+8.1.  Normative References
+
+   [RFC7540]  Belshe, M., Peon, R., and M. Thomson, Ed., "Hypertext
+              Transfer Protocol Version 2 (HTTP/2)", RFC 7540,
+              DOI 10.17487/RFC7540, May 2015,
+              <http://www.rfc-editor.org/info/rfc7540>.
+
+   [RFC7541]  Peon, R. and H. Ruellan, "HPACK: Header Compression for
+              HTTP/2", RFC 7541, DOI 10.17487/RFC7541, May 2015,
+              <http://www.rfc-editor.org/info/rfc7541>.
+
+8.2.  Informative References
+
+   [RFC2629]  Rose, M., "Writing I-Ds and RFCs using XML", RFC 2629,
+              DOI 10.17487/RFC2629, June 1999,
+              <http://www.rfc-editor.org/info/rfc2629>.
+
+   [RFC7749]  Reschke, J., "The "xml2rfc" Version 2 Vocabulary",
+              RFC 7749, DOI 10.17487/RFC7749, February 2016,
+              <http://www.rfc-editor.org/info/rfc7749>.
+
+Authors' Addresses
+
+   Gabriel Montenegro
+   Microsoft
+
+   Email: Gabriel.Montenegro@microsoft.com
+
+
+   Sandra Cespedes
+   NIC Chile Research Labs, Universidad de Chile
+
+   Email: scespedes@ing.uchile.cl
+
+
+   Salvatore Loreto
+   Ericsson
+
+   Email: salvatore.loreto@ericsson.com
+
+
+   Robby Simpson
+   General Electric
+
+   Email: rsimpson@gmail.com
+
+
+
+
+Montenegro, et al.        Expires May 11, 2017                  [Page 5]
