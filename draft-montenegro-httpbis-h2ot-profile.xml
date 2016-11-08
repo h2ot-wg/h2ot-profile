@@ -1,0 +1,171 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+  <!ENTITY RFC0793 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.0793.xml'>
+  <!ENTITY RFC1738 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.1738.xml'>
+  <!ENTITY RFC1950 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.1950.xml'>
+  <!ENTITY RFC2285 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.2285.xml'>
+  <!ENTITY RFC2616 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616.xml'>
+  <!ENTITY RFC2617 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.2617.xml'>
+  <!ENTITY RFC2629 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.2629.xml'>
+  <!ENTITY RFC2818 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.2818.xml'>
+  <!ENTITY RFC4366 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.4366.xml'>
+  <!ENTITY RFC4559 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.4559.xml'>
+  <!ENTITY RFC5246 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml'>
+  <!ENTITY RFC6454 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.6454.xml'>
+  <!ENTITY RFC6455 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.6455.xml'>
+  <!ENTITY RFC6762 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.6762.xml'>
+  <!ENTITY RFC6763 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.6763.xml'>
+  <!ENTITY RFC7252 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.7252.xml'>
+  <!ENTITY RFC7452 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.7452.xml'>
+  <!ENTITY RFC7540 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.7540.xml'>
+  <!ENTITY RFC7541 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.7541.xml'>
+  <!ENTITY RFC7749 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.7749.xml'>
+]>
+
+<?xml-stylesheet type="text/xsl" href="rfc2629.xml"?>
+
+<?rfc toc="yes" symrefs="yes"?>
+<?rfc sortrefs="yes" ?> 
+
+<rfc ipr="trust200902" category="info" docName="draft-montenegro-httpbis-h2ot-profile-latest">
+  <front>
+	  <title abbrev="H2oT Profile">HTTP/2 Configuration Profile for the Internet of Things</title>
+
+    <author initials="G." surname="Montenegro" fullname="Gabriel Montenegro">
+      <organization>Microsoft</organization>
+      <address>
+        <email>Gabriel.Montenegro@microsoft.com</email>
+      </address>
+    </author>
+
+    <author initials="S." surname="Cespedes" fullname="Sandra Cespedes">
+      <organization abbrev="Universidad de Chile">NIC Chile Research Labs, Universidad de Chile</organization>
+      <address>
+        <email>scespedes@ing.uchile.cl</email>
+      </address>
+    </author>
+
+    <author initials="S." surname="Loreto" fullname="Salvatore Loreto">
+      <organization>Ericsson</organization>
+      <address>
+        <email>salvatore.loreto@ericsson.com</email>
+      </address>
+    </author>
+    
+    <author initials="R." surname="Simpson" fullname="Robby Simpson">
+      <organization>General Electric</organization>
+        <address>
+          <email>rsimpson@gmail.com</email>
+        </address>
+    </author>
+    
+    <date month="November" year="2016" />
+    <area>Applications</area>
+    <keyword>HTTP, IoT</keyword>
+    <abstract>
+	    <t>
+This document define an HTTP/2 configuration profile for IoT. 
+	    </t>
+
+    </abstract>
+  </front>
+
+  <middle>
+<section anchor="intro" title="Introduction">  
+	<t>
+    Unlike HTTP/1.X, HTTP/2 is suitable for many IoT applications. 
+    Even though IoT was not the primary scenario when HTTP/2
+    was designed, the protocol is compact, configurable and flexible. 
+    The use of header compression as well as the binary encoding of the protocol reduces the size of HTTP/2 flows 
+    as compared to HTTP/1.1. HTTP/2's ability to reuse connections for multiple streams reduces 
+    connection establishment overhead, such as TCP connection establishment and TLS session establishment. 
+	</t>      
+  <t> 
+    This document discusses how to configure HTTP/2 
+    so as to adapt it better to IoT scenarios, including those in which the devices running the protocol have
+    constrained resources.
+  </t>
+</section>
+
+<section title="Configuration Profile of HTTP/2 for IoT"> 
+  <t>HTTP/2 has many negotiable settings that can improve its performance for IoT applications by reducing bandwidth, 
+  codespace, and RAM requirements. Specifically, the following settings and values have been found to be useful in IoT applications:
+    <list style='symbols'>
+      <t> SETTINGS_HEADER_TABLE_SIZE: this setting allows hosts to limit the size of the header compression table used for decoding, reducing required RAM, but potentially increasing bandwidth requirements. Initial value per HTTP/2 is 4096. IoT scenarios might benefit from changing this to a smaller value (e.g., 512), however, to avoid increased bandwidth usage, IoT scenarios should judiciously use HTTP headers and the dynamic header table <xref target="RFC7541"/>.  </t>
+      <t> SETTINGS_ENABLE_PUSH: This setting allows clients to enable or disable server push. This functionality may not be required in some IoT applications. The initial value per HTTP/2 is 1.</t>
+      <t> SETTINGS_MAX_CONCURRENT_STREAMS: this setting allows a sender to limit the number of simultaneous streams that a receiver can create for a connection. HTTP/2 recommends this value be no smaller than 100. IoT scenarios may wish to limit this to a much smaller number, such as 2 or 3. </t>
+      <t> SETTINGS_INITIAL_WINDOW_SIZE: this setting allows hosts to limit the flow control window, potentially reducing buffer requirements at the expense of potentially underutilized bandwidth-delay products. Per HTTP/2 the initial value is 2^16-1 (65,535) octets. IoT scenarios may wish to limit this to smaller values in accordance with the node's constraints (e.g., a few kilo-octets).
+ </t>
+      <t> SETTINGS_MAX_FRAME_SIZE: this setting allows hosts to specify the largest frame size they are willing to receive. Per HTTP/2 the initial value is 2^14 (16,384) octets. Somewhat counterintuitively, IoT hosts may wish to leave this value large and rely on flow control to avoid unnecessary framing overhead. </t>
+      <t> SETTINGS_MAX_HEADER_LIST_SIZE: this setting allows hosts to limit the maximum size of the header list they are willing to receive. Per HTTP/2 the initial value of this setting is unlimited. IoT scenarios may wish to limit this to smaller values in accordance with the node's constraints (e.g., a few kilo-octets).
+ </t>
+    </list>
+  </t>
+</section>
+
+<section title="Negotiation of HTTP/2 for IoT"> 
+  <t>
+    For Constrained and Internet scenarios, it is assumed that HTTP/2 runs over TLS. Accordingly, the ALPN negotiation in section 3.3 of <xref target="RFC7540"/> applies. As seen above, an IoT scenario may wish to depart from the default SETTINGS. To do so, the usual SETTINGS negotiation applies.
+	  In this case, the initial SETTINGS negotiation setup is based on the first message exchange initiated by the client.
+    This is simpler than general HTTP/2 case: not having an in-the-clear Upgrade path means the client is always in control of first HTTP/2 message, including any SETTINGS changes it may wish.
+  </t>
+  <t>
+    Additionally, the use of "prior knowledge" per section 3.4 of <xref target="RFC7540"/> is likely to also work particularly well in IoT scenarios in which a client and its web service are likely to be closely matched. In such scenarios, prior knowledge may allow for SETTINGS to be set in accordance with some shared state implied by the the prior knowledge. In such cases, SETTINGS negotiation may not be necessary in order to depart from the defaults as defined by HTTP/2.
+  </t>
+</section>
+
+<section title="Implementation Considerations"> 
+  <t> This section assumes HTTP/2 over TCP. 
+  </t>
+  
+  <t> In addition to underlying stack considerations with respect to IPv4, IPv6, TCP, and TLS, there are implementation considerations for HTTP/2 for IoT. </t>
+  
+  <t> A primary consideration is the number of allowed simultaneous HTTP/2 connections. As each connection has associated overhead, as well as overhead for each stream, constrained hosts may wish to limit their number of simultaneous connections. However, implementers should consider that some popular browsers require more than one connection to operate. </t>
+
+  <t> In addition to minimizing the number of simultaneous connections, hosts should consider leaving connections open if there is a possibility of further communication with the remote peer. HTTP/2 contains mechanisms such as PING to periodically check idle connections. Leaving established connections open when there is a possibility of future communication allows connection establishment overhead (and potentially TLS session establishment overhead) to be avoided. </t>
+
+  <t> Should TLS be used, implementers may wish to consider utilizing hardware-based encryption to further reduce codespace and RAM requirements. </t>
+</section>
+
+<section anchor="iana" title="IANA Considerations">
+	<t>
+    This document has no considerations for IANA.
+  </t>
+  </section>
+
+  <section anchor="security" title="Security Considerations">
+	<t>
+      This document seeks to improve security of the IoT by encouraging use of mainstream protocols which are better understood
+      and more thoroughly debugged (both in their specifications as well as in their implementations). 
+  </t>
+
+  </section>
+
+    <section title="Acknowledgements">
+      <t>
+        Thanks to the following individuals for helpful comments and discussion: Brian Raymor, Dave Thaler, Ed Briggs. 
+      </t>
+      <t>
+        This document was produced using the xml2rfc tool <xref target="RFC2629"/><xref target="RFC7749"/>. 
+      </t>
+    </section>
+
+  </middle>
+
+  <back>
+    <references title="Normative References">
+    
+      &RFC7540;
+      &RFC7541;
+
+   </references>
+
+   <references title="Informative References">
+     
+      &RFC2629;    
+
+      &RFC7749;      
+  
+   </references>
+  </back>
+</rfc>
