@@ -1,15 +1,16 @@
 
 
 
+
 Network Working Group                                      G. Montenegro
 Internet-Draft                                                 Microsoft
 Intended status: Informational                               S. Cespedes
-Expires: May 11, 2017                               Universidad de Chile
+Expires: June 12, 2017                              Universidad de Chile
                                                                S. Loreto
                                                                 Ericsson
                                                               R. Simpson
                                                         General Electric
-                                                        November 7, 2016
+                                                        December 9, 2016
 
 
         HTTP/2 Configuration Profile for the Internet of Things
@@ -34,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 11, 2017.
+   This Internet-Draft will expire on June 12, 2017.
 
 Copyright Notice
 
@@ -52,10 +53,9 @@ Copyright Notice
 
 
 
-Montenegro, et al.        Expires May 11, 2017                  [Page 1]
-
-
-Internet-Draft                H2oT Profile                 November 2016
+Montenegro, et al.        Expires June 12, 2017                 [Page 1]
+
+Internet-Draft                H2oT Profile                 December 2016
 
 
    the Trust Legal Provisions and are provided without warranty as
@@ -69,11 +69,11 @@ Table of Contents
    4.  Implementation Considerations . . . . . . . . . . . . . . . .   4
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   4
    6.  Security Considerations . . . . . . . . . . . . . . . . . . .   4
-   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   4
+   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   5
    8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
      8.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
      8.2.  Informative References  . . . . . . . . . . . . . . . . .   5
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   5
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   6
 
 1.  Introduction
 
@@ -109,10 +109,9 @@ Table of Contents
 
 
 
-Montenegro, et al.        Expires May 11, 2017                  [Page 2]
-
-
-Internet-Draft                H2oT Profile                 November 2016
+Montenegro, et al.        Expires June 12, 2017                 [Page 2]
+
+Internet-Draft                H2oT Profile                 December 2016
 
 
    o  SETTINGS_ENABLE_PUSH: This setting allows clients to enable or
@@ -166,15 +165,17 @@ Internet-Draft                H2oT Profile                 November 2016
 
 
 
-Montenegro, et al.        Expires May 11, 2017                  [Page 3]
-
-
-Internet-Draft                H2oT Profile                 November 2016
+Montenegro, et al.        Expires June 12, 2017                 [Page 3]
+
+Internet-Draft                H2oT Profile                 December 2016
 
 
 4.  Implementation Considerations
 
-   This section assumes HTTP/2 over TCP.
+   This section assumes HTTP/2 over TCP, i.e., as specified in
+   [RFC7540].  Implementors should consider TCP optimizations for IoT,
+   such as [I-D.gomez-core-tcp-constrained-node-networks] as well as
+   LoWPAN-related TCP optimizations such as [I-D.aayadi-6lowpan-tcphc].
 
    In addition to underlying stack considerations with respect to IPv4,
    IPv6, TCP, and TLS, there are implementation considerations for
@@ -206,28 +207,41 @@ Internet-Draft                H2oT Profile                 November 2016
 
 6.  Security Considerations
 
-   This document seeks to improve security of the IoT by encouraging use
-   of mainstream protocols which are better understood and more
-   thoroughly debugged (both in their specifications as well as in their
-   implementations).
+   This document suggests a profile for HTTP/2 in IoT applications.  All
+   the security considerations for [RFC7540] apply.  Given the
+   constraints likely to characterize devices common in IoT scenarios,
+   issues related to resource exhaustion and denial-of-service attacks
+   are particularly noteworthy.  Nevertheless, the suggestions in this
+   document limit the resources used in such a way that any peer
+   exceeding such limits will be in protocol violation making those
+   connection or connection attempts readily droppable.  Of course,
+   resource exhaustion attacks are not mitigated, as these will simply
+   obey the limits imposed by the constrained profile specified herein.
+   Hence, it is always imperative to safeguard IoT devices by the usual
+
+
+
+Montenegro, et al.        Expires June 12, 2017                 [Page 4]
+
+Internet-Draft                H2oT Profile                 December 2016
+
+
+   means (e.g., by using a firewall or a gateway with richer resources
+   to provide some protection).
+
+   As for the potential risks to the infrastructure by attacks launched
+   from devices compliant with this specification, each such instance
+   represents less of a threat than usually configured and profiled
+   HTTP/2 clients.  Nevertheless, the sheer number of IoT devices means
+   that the overall threat to infrastructure may be formidable, as has
+   been observed in IoT-based DDoS attacks.  Accordingly, it is
+   essential for these devices to implement the usual security measures
+   to prevent their hijacking by e.g., requiring strong authentication
+   of the operators, update capabilities, etc.
 
 7.  Acknowledgements
 
-   Thanks to the following individuals for helpful comments and
-   discussion: Brian Raymor, Dave Thaler, Ed Briggs.
-
    This document was produced using the xml2rfc tool [RFC2629][RFC7749].
-
-
-
-
-
-
-Montenegro, et al.        Expires May 11, 2017                  [Page 4]
-
-
-Internet-Draft                H2oT Profile                 November 2016
-
 
 8.  References
 
@@ -244,9 +258,29 @@ Internet-Draft                H2oT Profile                 November 2016
 
 8.2.  Informative References
 
+   [I-D.aayadi-6lowpan-tcphc]
+              Ayadi, A., Ros, D., and L. Toutain, "TCP header
+              compression for 6LoWPAN", draft-aayadi-6lowpan-tcphc-01
+              (work in progress), October 2010.
+
+   [I-D.gomez-core-tcp-constrained-node-networks]
+              Gomez, C. and J. Crowcroft, "TCP over Constrained-Node
+              Networks", draft-gomez-core-tcp-constrained-node-
+              networks-00 (work in progress), June 2016.
+
    [RFC2629]  Rose, M., "Writing I-Ds and RFCs using XML", RFC 2629,
               DOI 10.17487/RFC2629, June 1999,
               <http://www.rfc-editor.org/info/rfc2629>.
+
+
+
+
+
+
+Montenegro, et al.        Expires June 12, 2017                 [Page 5]
+
+Internet-Draft                H2oT Profile                 December 2016
+
 
    [RFC7749]  Reschke, J., "The "xml2rfc" Version 2 Vocabulary",
               RFC 7749, DOI 10.17487/RFC7749, February 2016,
@@ -280,4 +314,23 @@ Authors' Addresses
 
 
 
-Montenegro, et al.        Expires May 11, 2017                  [Page 5]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Montenegro, et al.        Expires June 12, 2017                 [Page 6]

@@ -37,7 +37,6 @@
         <email>Gabriel.Montenegro@microsoft.com</email>
       </address>
     </author>
-
     <author initials="S." surname="Cespedes" fullname="Sandra Cespedes">
       <organization abbrev="Universidad de Chile">NIC Chile Research Labs, Universidad de Chile</organization>
       <address>
@@ -58,8 +57,8 @@
           <email>rsimpson@gmail.com</email>
         </address>
     </author>
-    
-    <date month="November" year="2016" />
+
+    <date />
     <area>Applications</area>
     <keyword>HTTP, IoT</keyword>
     <abstract>
@@ -115,7 +114,7 @@ This document define an HTTP/2 configuration profile for IoT.
 </section>
 
 <section title="Implementation Considerations"> 
-  <t> This section assumes HTTP/2 over TCP. 
+  <t> This section assumes HTTP/2 over TCP, i.e., as specified in <xref target="RFC7540" />. Implementors should consider TCP optimizations for IoT, such as <xref target="I-D.gomez-core-tcp-constrained-node-networks" /> as well as LoWPAN-related TCP optimizations such as <xref target="I-D.aayadi-6lowpan-tcphc" />.
   </t>
   
   <t> In addition to underlying stack considerations with respect to IPv4, IPv6, TCP, and TLS, there are implementation considerations for HTTP/2 for IoT. </t>
@@ -135,16 +134,30 @@ This document define an HTTP/2 configuration profile for IoT.
 
   <section anchor="security" title="Security Considerations">
 	<t>
-      This document seeks to improve security of the IoT by encouraging use of mainstream protocols which are better understood
-      and more thoroughly debugged (both in their specifications as well as in their implementations). 
+      This document suggests a profile for HTTP/2 in IoT applications. All the security considerations for 
+      <xref target="RFC7540" /> apply. Given the constraints likely to characterize devices common in IoT 
+      scenarios, issues related to resource exhaustion and denial-of-service attacks are particularly
+      noteworthy. Nevertheless, the suggestions in this document limit the resources used in such a way that
+      any peer exceeding such limits will be in protocol violation making those connection or connection 
+      attempts readily droppable. Of course, resource exhaustion attacks are not mitigated, as these will
+      simply obey the limits imposed by the constrained profile specified herein. Hence, it is always imperative
+      to safeguard IoT devices by the usual means (e.g., by using a firewall or a gateway with richer resources
+      to provide some protection).
+  </t>
+  <t>
+      As for the potential risks to the infrastructure by attacks launched from devices compliant with this 
+      specification, each such instance represents less of a threat than usually configured and profiled HTTP/2
+      clients. Nevertheless, the sheer number of IoT devices means that the overall threat to infrastructure may
+      be formidable, as has been observed in IoT-based DDoS attacks. Accordingly, it is essential for these
+      devices to implement the usual security
+      measures to prevent their hijacking by e.g., requiring strong authentication of the operators,
+      update capabilities, etc.
+  
   </t>
 
   </section>
 
     <section title="Acknowledgements">
-      <t>
-        Thanks to the following individuals for helpful comments and discussion: Brian Raymor, Dave Thaler, Ed Briggs. 
-      </t>
       <t>
         This document was produced using the xml2rfc tool <xref target="RFC2629"/><xref target="RFC7749"/>. 
       </t>
@@ -166,6 +179,11 @@ This document define an HTTP/2 configuration profile for IoT.
 
       &RFC7749;      
   
+      <?rfc include="reference.I-D.gomez-core-tcp-constrained-node-networks.xml"?>
+
+      <?rfc include="reference.I-D.aayadi-6lowpan-tcphc.xml"?>
+
+
    </references>
   </back>
 </rfc>
