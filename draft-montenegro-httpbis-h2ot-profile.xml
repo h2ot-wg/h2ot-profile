@@ -109,7 +109,7 @@ This document define an HTTP/2 configuration profile for IoT.
     This is simpler than general HTTP/2 case: not having an in-the-clear Upgrade path means the client is always in control of first HTTP/2 message, including any SETTINGS changes it may wish.
   </t>
   <t>
-    Additionally, the use of "prior knowledge" per section 3.4 of <xref target="RFC7540"/> is likely to also work particularly well in IoT scenarios in which a client and its web service are likely to be closely matched. In such scenarios, prior knowledge may allow for SETTINGS to be set in accordance with some shared state implied by the the prior knowledge. In such cases, SETTINGS negotiation may not be necessary in order to depart from the defaults as defined by HTTP/2.
+    Additionally, the use of "prior knowledge" per section 3.4 of <xref target="RFC7540"/> is likely to also work particularly well in IoT scenarios in which a client and its web service are likely to be closely matched. In such scenarios, prior knowledge may allow for SETTINGS to be set in accordance with some shared state implied by the prior knowledge. In such cases, SETTINGS negotiation may not be necessary in order to depart from the defaults as defined by HTTP/2.
   </t>
 </section>
 
