@@ -5,12 +5,12 @@
 Network Working Group                                      G. Montenegro
 Internet-Draft                                                 Microsoft
 Intended status: Informational                               S. Cespedes
-Expires: June 12, 2017                              Universidad de Chile
+Expires: August 12, 2017                            Universidad de Chile
                                                                S. Loreto
                                                                 Ericsson
                                                               R. Simpson
                                                         General Electric
-                                                        December 9, 2016
+                                                        February 8, 2017
 
 
         HTTP/2 Configuration Profile for the Internet of Things
@@ -35,11 +35,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on June 12, 2017.
+   This Internet-Draft will expire on August 12, 2017.
 
 Copyright Notice
 
-   Copyright (c) 2016 IETF Trust and the persons identified as the
+   Copyright (c) 2017 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Montenegro, et al.        Expires June 12, 2017                 [Page 1]
+Montenegro, et al.       Expires August 12, 2017                [Page 1]
 
-Internet-Draft                H2oT Profile                 December 2016
+Internet-Draft                H2oT Profile                 February 2017
 
 
    the Trust Legal Provisions and are provided without warranty as
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Montenegro, et al.        Expires June 12, 2017                 [Page 2]
+Montenegro, et al.       Expires August 12, 2017                [Page 2]
 
-Internet-Draft                H2oT Profile                 December 2016
+Internet-Draft                H2oT Profile                 February 2017
 
 
    o  SETTINGS_ENABLE_PUSH: This setting allows clients to enable or
@@ -159,15 +159,15 @@ Internet-Draft                H2oT Profile                 December 2016
    [RFC7540] is likely to also work particularly well in IoT scenarios
    in which a client and its web service are likely to be closely
    matched.  In such scenarios, prior knowledge may allow for SETTINGS
-   to be set in accordance with some shared state implied by the the
-   prior knowledge.  In such cases, SETTINGS negotiation may not be
-   necessary in order to depart from the defaults as defined by HTTP/2.
+   to be set in accordance with some shared state implied by the prior
+   knowledge.  In such cases, SETTINGS negotiation may not be necessary
+   in order to depart from the defaults as defined by HTTP/2.
 
 
 
-Montenegro, et al.        Expires June 12, 2017                 [Page 3]
+Montenegro, et al.       Expires August 12, 2017                [Page 3]
 
-Internet-Draft                H2oT Profile                 December 2016
+Internet-Draft                H2oT Profile                 February 2017
 
 
 4.  Implementation Considerations
@@ -221,9 +221,9 @@ Internet-Draft                H2oT Profile                 December 2016
 
 
 
-Montenegro, et al.        Expires June 12, 2017                 [Page 4]
+Montenegro, et al.       Expires August 12, 2017                [Page 4]
 
-Internet-Draft                H2oT Profile                 December 2016
+Internet-Draft                H2oT Profile                 February 2017
 
 
    means (e.g., by using a firewall or a gateway with richer resources
@@ -277,9 +277,9 @@ Internet-Draft                H2oT Profile                 December 2016
 
 
 
-Montenegro, et al.        Expires June 12, 2017                 [Page 5]
+Montenegro, et al.       Expires August 12, 2017                [Page 5]
 
-Internet-Draft                H2oT Profile                 December 2016
+Internet-Draft                H2oT Profile                 February 2017
 
 
    [RFC7749]  Reschke, J., "The "xml2rfc" Version 2 Vocabulary",
@@ -333,4 +333,4 @@ Authors' Addresses
 
 
 
-Montenegro, et al.        Expires June 12, 2017                 [Page 6]
+Montenegro, et al.       Expires August 12, 2017                [Page 6]
