@@ -138,7 +138,9 @@ Internet-Draft                H2oT Profile                    March 2017
       largest frame size they are willing to receive.  Per HTTP/2 the
       initial value is 2^14 (16,384) octets.  Somewhat
       counterintuitively, IoT hosts may wish to leave this value large
-      and rely on flow control to avoid unnecessary framing overhead.
+      and rely on flow control to avoid unnecessary framing overhead
+      (see: <https://lists.w3.org/Archives/Public/ietf-http-
+      wg/2014JulSep/1626.html>).
 
    o  SETTINGS_MAX_HEADER_LIST_SIZE: this setting allows hosts to limit
       the maximum size of the header list they are willing to receive.
@@ -160,8 +162,6 @@ Internet-Draft                H2oT Profile                    March 2017
 
    Additionally, the use of "prior knowledge" per section 3.4 of
    [RFC7540] is likely to also work particularly well in IoT scenarios
-   in which a client and its web service are likely to be closely
-   matched.  In such scenarios, prior knowledge may allow for SETTINGS
 
 
 
@@ -170,6 +170,8 @@ Montenegro, et al.      Expires September 7, 2017               [Page 3]
 Internet-Draft                H2oT Profile                    March 2017
 
 
+   in which a client and its web service are likely to be closely
+   matched.  In such scenarios, prior knowledge may allow for SETTINGS
    to be set in accordance with some shared state implied by the prior
    knowledge.  In such cases, SETTINGS negotiation may not be necessary
    in order to depart from the defaults as defined by HTTP/2.
@@ -216,8 +218,6 @@ Internet-Draft                H2oT Profile                    March 2017
    This document suggests a profile for HTTP/2 in IoT applications.  All
    the security considerations for [RFC7540] apply.  Given the
    constraints likely to characterize devices common in IoT scenarios,
-   issues related to resource exhaustion and denial-of-service attacks
-   are particularly noteworthy.  Nevertheless, the suggestions in this
 
 
 
@@ -226,6 +226,8 @@ Montenegro, et al.      Expires September 7, 2017               [Page 4]
 Internet-Draft                H2oT Profile                    March 2017
 
 
+   issues related to resource exhaustion and denial-of-service attacks
+   are particularly noteworthy.  Nevertheless, the suggestions in this
    document limit the resources used in such a way that any peer
    exceeding such limits will be in protocol violation making those
    connection or connection attempts readily droppable.  Of course,
@@ -269,10 +271,8 @@ Internet-Draft                H2oT Profile                    March 2017
               compression for 6LoWPAN", draft-aayadi-6lowpan-tcphc-01
               (work in progress), October 2010.
 
-   [I-D.gomez-core-tcp-constrained-node-networks]
-              Gomez, C. and J. Crowcroft, "TCP over Constrained-Node
-              Networks", draft-gomez-core-tcp-constrained-node-
-              networks-00 (work in progress), June 2016.
+
+
 
 
 
@@ -281,6 +281,11 @@ Montenegro, et al.      Expires September 7, 2017               [Page 5]
 
 Internet-Draft                H2oT Profile                    March 2017
 
+
+   [I-D.gomez-core-tcp-constrained-node-networks]
+              Gomez, C. and J. Crowcroft, "TCP over Constrained-Node
+              Networks", draft-gomez-core-tcp-constrained-node-
+              networks-00 (work in progress), June 2016.
 
    [RFC2629]  Rose, M., "Writing I-Ds and RFCs using XML", RFC 2629,
               DOI 10.17487/RFC2629, June 1999,
@@ -319,11 +324,6 @@ Authors' Addresses
    General Electric
 
    Email: rsimpson@gmail.com
-
-
-
-
-
 
 
 
