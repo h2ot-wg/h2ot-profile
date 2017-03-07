@@ -5,12 +5,12 @@
 Network Working Group                                      G. Montenegro
 Internet-Draft                                                 Microsoft
 Intended status: Informational                               S. Cespedes
-Expires: August 12, 2017                            Universidad de Chile
+Expires: September 7, 2017                          Universidad de Chile
                                                                S. Loreto
                                                                 Ericsson
                                                               R. Simpson
                                                         General Electric
-                                                        February 8, 2017
+                                                           March 6, 2017
 
 
         HTTP/2 Configuration Profile for the Internet of Things
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 12, 2017.
+   This Internet-Draft will expire on September 7, 2017.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Montenegro, et al.       Expires August 12, 2017                [Page 1]
+Montenegro, et al.      Expires September 7, 2017               [Page 1]
 
-Internet-Draft                H2oT Profile                 February 2017
+Internet-Draft                H2oT Profile                    March 2017
 
 
    the Trust Legal Provisions and are provided without warranty as
@@ -84,7 +84,10 @@ Table of Contents
    the size of HTTP/2 flows as compared to HTTP/1.1.  HTTP/2's ability
    to reuse connections for multiple streams reduces connection
    establishment overhead, such as TCP connection establishment and TLS
-   session establishment.
+   session establishment.  HTTP/2 has been found to be amenable to
+   implementation on class 2 devices, per the constrained device
+   classification in section 3 of [RFC7228].  Furthermore, initial
+   efforts have resulted in successful experiments on class 1 devices.
 
    This document discusses how to configure HTTP/2 so as to adapt it
    better to IoT scenarios, including those in which the devices running
@@ -102,17 +105,17 @@ Table of Contents
       required RAM, but potentially increasing bandwidth requirements.
       Initial value per HTTP/2 is 4096.  IoT scenarios might benefit
       from changing this to a smaller value (e.g., 512), however, to
+
+
+
+
+Montenegro, et al.      Expires September 7, 2017               [Page 2]
+
+Internet-Draft                H2oT Profile                    March 2017
+
+
       avoid increased bandwidth usage, IoT scenarios should judiciously
       use HTTP headers and the dynamic header table [RFC7541].
-
-
-
-
-
-Montenegro, et al.       Expires August 12, 2017                [Page 2]
-
-Internet-Draft                H2oT Profile                 February 2017
-
 
    o  SETTINGS_ENABLE_PUSH: This setting allows clients to enable or
       disable server push.  This functionality may not be required in
@@ -159,16 +162,17 @@ Internet-Draft                H2oT Profile                 February 2017
    [RFC7540] is likely to also work particularly well in IoT scenarios
    in which a client and its web service are likely to be closely
    matched.  In such scenarios, prior knowledge may allow for SETTINGS
+
+
+
+Montenegro, et al.      Expires September 7, 2017               [Page 3]
+
+Internet-Draft                H2oT Profile                    March 2017
+
+
    to be set in accordance with some shared state implied by the prior
    knowledge.  In such cases, SETTINGS negotiation may not be necessary
    in order to depart from the defaults as defined by HTTP/2.
-
-
-
-Montenegro, et al.       Expires August 12, 2017                [Page 3]
-
-Internet-Draft                H2oT Profile                 February 2017
-
 
 4.  Implementation Considerations
 
@@ -186,7 +190,9 @@ Internet-Draft                H2oT Profile                 February 2017
    overhead for each stream, constrained hosts may wish to limit their
    number of simultaneous connections.  However, implementers should
    consider that some popular browsers require more than one connection
-   to operate.
+   to operate.  Given that one of the motivations to use HTTP/2 is to
+   use mainstream technologies, this is an important consideration for
+   certain scenarios.
 
    In addition to minimizing the number of simultaneous connections,
    hosts should consider leaving connections open if there is a
@@ -212,20 +218,20 @@ Internet-Draft                H2oT Profile                 February 2017
    constraints likely to characterize devices common in IoT scenarios,
    issues related to resource exhaustion and denial-of-service attacks
    are particularly noteworthy.  Nevertheless, the suggestions in this
+
+
+
+Montenegro, et al.      Expires September 7, 2017               [Page 4]
+
+Internet-Draft                H2oT Profile                    March 2017
+
+
    document limit the resources used in such a way that any peer
    exceeding such limits will be in protocol violation making those
    connection or connection attempts readily droppable.  Of course,
    resource exhaustion attacks are not mitigated, as these will simply
    obey the limits imposed by the constrained profile specified herein.
    Hence, it is always imperative to safeguard IoT devices by the usual
-
-
-
-Montenegro, et al.       Expires August 12, 2017                [Page 4]
-
-Internet-Draft                H2oT Profile                 February 2017
-
-
    means (e.g., by using a firewall or a gateway with richer resources
    to provide some protection).
 
@@ -268,19 +274,22 @@ Internet-Draft                H2oT Profile                 February 2017
               Networks", draft-gomez-core-tcp-constrained-node-
               networks-00 (work in progress), June 2016.
 
+
+
+
+Montenegro, et al.      Expires September 7, 2017               [Page 5]
+
+Internet-Draft                H2oT Profile                    March 2017
+
+
    [RFC2629]  Rose, M., "Writing I-Ds and RFCs using XML", RFC 2629,
               DOI 10.17487/RFC2629, June 1999,
               <http://www.rfc-editor.org/info/rfc2629>.
 
-
-
-
-
-
-Montenegro, et al.       Expires August 12, 2017                [Page 5]
-
-Internet-Draft                H2oT Profile                 February 2017
-
+   [RFC7228]  Bormann, C., Ersue, M., and A. Keranen, "Terminology for
+              Constrained-Node Networks", RFC 7228,
+              DOI 10.17487/RFC7228, May 2014,
+              <http://www.rfc-editor.org/info/rfc7228>.
 
    [RFC7749]  Reschke, J., "The "xml2rfc" Version 2 Vocabulary",
               RFC 7749, DOI 10.17487/RFC7749, February 2016,
@@ -324,13 +333,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-
-
-Montenegro, et al.       Expires August 12, 2017                [Page 6]
+Montenegro, et al.      Expires September 7, 2017               [Page 6]
