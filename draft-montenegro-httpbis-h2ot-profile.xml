@@ -39,8 +39,11 @@
       </address>
     </author>
     <author initials="S." surname="Cespedes" fullname="Sandra Cespedes">
-      <organization abbrev="Universidad de Chile">NIC Chile Research Labs, Universidad de Chile</organization>
+      <organization abbrev="NIC Labs Chile">NIC Labs Chile</organization>
       <address>
+        <postal>
+          <street>Universidad de Chile</street>
+        </postal>
         <email>scespedes@ing.uchile.cl</email>
       </address>
     </author>
