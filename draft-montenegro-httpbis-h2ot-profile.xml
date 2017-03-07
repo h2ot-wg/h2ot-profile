@@ -15,6 +15,7 @@
   <!ENTITY RFC6455 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.6455.xml'>
   <!ENTITY RFC6762 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.6762.xml'>
   <!ENTITY RFC6763 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.6763.xml'>
+  <!ENTITY RFC7228 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.7228.xml'>
   <!ENTITY RFC7252 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.7252.xml'>
   <!ENTITY RFC7452 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.7452.xml'>
   <!ENTITY RFC7540 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.7540.xml'>
@@ -77,7 +78,9 @@ This document define an HTTP/2 configuration profile for IoT.
     was designed, the protocol is compact, configurable and flexible. 
     The use of header compression as well as the binary encoding of the protocol reduces the size of HTTP/2 flows 
     as compared to HTTP/1.1. HTTP/2's ability to reuse connections for multiple streams reduces 
-    connection establishment overhead, such as TCP connection establishment and TLS session establishment. 
+    connection establishment overhead, such as TCP connection establishment and TLS session establishment. HTTP/2 has been found
+    to be amenable to implementation on class 2 devices, per the constrained device classification in section 3 of <xref target="RFC7228" />. 
+    Furthermore, initial efforts have resulted in successful experiments on class 1 devices.
 	</t>      
   <t> 
     This document discusses how to configure HTTP/2 
@@ -119,7 +122,7 @@ This document define an HTTP/2 configuration profile for IoT.
   
   <t> In addition to underlying stack considerations with respect to IPv4, IPv6, TCP, and TLS, there are implementation considerations for HTTP/2 for IoT. </t>
   
-  <t> A primary consideration is the number of allowed simultaneous HTTP/2 connections. As each connection has associated overhead, as well as overhead for each stream, constrained hosts may wish to limit their number of simultaneous connections. However, implementers should consider that some popular browsers require more than one connection to operate. </t>
+  <t> A primary consideration is the number of allowed simultaneous HTTP/2 connections. As each connection has associated overhead, as well as overhead for each stream, constrained hosts may wish to limit their number of simultaneous connections. However, implementers should consider that some popular browsers require more than one connection to operate. Given that one of the motivations to use HTTP/2 is to use mainstream technologies, this is an important consideration for certain scenarios.</t>
 
   <t> In addition to minimizing the number of simultaneous connections, hosts should consider leaving connections open if there is a possibility of further communication with the remote peer. HTTP/2 contains mechanisms such as PING to periodically check idle connections. Leaving established connections open when there is a possibility of future communication allows connection establishment overhead (and potentially TLS session establishment overhead) to be avoided. </t>
 
@@ -176,7 +179,7 @@ This document define an HTTP/2 configuration profile for IoT.
    <references title="Informative References">
      
       &RFC2629;    
-
+      &RFC7228;
       &RFC7749;      
   
       <?rfc include="reference.I-D.gomez-core-tcp-constrained-node-networks.xml"?>
