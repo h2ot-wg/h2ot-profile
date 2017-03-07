@@ -39,8 +39,11 @@
       </address>
     </author>
     <author initials="S." surname="Cespedes" fullname="Sandra Cespedes">
-      <organization abbrev="Universidad de Chile">NIC Chile Research Labs, Universidad de Chile</organization>
+      <organization abbrev="NIC Labs Chile">NIC Labs Chile</organization>
       <address>
+        <postal>
+          <street>Universidad de Chile</street>
+        </postal>
         <email>scespedes@ing.uchile.cl</email>
       </address>
     </author>
@@ -98,7 +101,8 @@ This document define an HTTP/2 configuration profile for IoT.
       <t> SETTINGS_MAX_CONCURRENT_STREAMS: this setting allows a sender to limit the number of simultaneous streams that a receiver can create for a connection. HTTP/2 recommends this value be no smaller than 100. IoT scenarios may wish to limit this to a much smaller number, such as 2 or 3. </t>
       <t> SETTINGS_INITIAL_WINDOW_SIZE: this setting allows hosts to limit the flow control window, potentially reducing buffer requirements at the expense of potentially underutilized bandwidth-delay products. Per HTTP/2 the initial value is 2^16-1 (65,535) octets. IoT scenarios may wish to limit this to smaller values in accordance with the node's constraints (e.g., a few kilo-octets).
  </t>
-      <t> SETTINGS_MAX_FRAME_SIZE: this setting allows hosts to specify the largest frame size they are willing to receive. Per HTTP/2 the initial value is 2^14 (16,384) octets. Somewhat counterintuitively, IoT hosts may wish to leave this value large and rely on flow control to avoid unnecessary framing overhead. </t>
+      <t> SETTINGS_MAX_FRAME_SIZE: this setting allows hosts to specify the largest frame size they are willing to receive. Per HTTP/2 the initial value is 2^14 (16,384) octets. Somewhat counterintuitively, IoT hosts may wish to leave this value large and rely on flow control to avoid unnecessary framing overhead 
+      (see: <eref target="https://lists.w3.org/Archives/Public/ietf-http-wg/2014JulSep/1626.html" />). </t>
       <t> SETTINGS_MAX_HEADER_LIST_SIZE: this setting allows hosts to limit the maximum size of the header list they are willing to receive. Per HTTP/2 the initial value of this setting is unlimited. IoT scenarios may wish to limit this to smaller values in accordance with the node's constraints (e.g., a few kilo-octets).
  </t>
     </list>
