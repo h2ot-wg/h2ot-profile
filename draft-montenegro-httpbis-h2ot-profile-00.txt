@@ -14,7 +14,7 @@ Expires: September 11, 2017                               NIC Labs Chile
 
 
         HTTP/2 Configuration Profile for the Internet of Things
-              draft-montenegro-httpbis-h2ot-profile-latest
+                draft-montenegro-httpbis-h2ot-profile-00
 
 Abstract
 
