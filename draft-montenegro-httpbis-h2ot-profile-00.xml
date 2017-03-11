@@ -28,7 +28,7 @@
 <?rfc toc="yes" symrefs="yes"?>
 <?rfc sortrefs="yes" ?> 
 
-<rfc ipr="trust200902" category="info" docName="draft-montenegro-httpbis-h2ot-profile-latest">
+<rfc ipr="trust200902" category="info" docName="draft-montenegro-httpbis-h2ot-profile-00">
   <front>
 	  <title abbrev="H2oT Profile">HTTP/2 Configuration Profile for the Internet of Things</title>
 
